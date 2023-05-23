@@ -33,13 +33,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
              }
         
 
-        
-//        monitor key combination
-        NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged, handler: flagsChanged)
+
         
         
         
-//        am trying to hide the app since i only need the screen
+//        am trying to hide the app since i only need the Touch Bar screen
         let storyboard = NSStoryboard(name: "TouchScreenNavigatorID", bundle: nil)
         guard let mainWC = storyboard.instantiateController(withIdentifier: "TouchScreenController") as? TouchScreenController else {
            fatalError("Error getting main window controller")
@@ -57,11 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       
     }
     
-    func flagsChanged(with event: NSEvent) {
-        
-// key hook up
-    
-    }
+
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
