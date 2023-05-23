@@ -50,11 +50,14 @@ class TouchScreenController: NSWindowController {
     self.ScrollViewImage.animator().magnify(toFit: frame)
              
         
-//        dispach thread to update screen image but this seems not to be updating
-        DispatchQueue(label: "updateScreenImageDispach").async {
-            self.updateScreenImageDispach()
-               }
+//        cause memory
+////        dispach thread to update screen image but this seems not to be updating
+//        DispatchQueue(label: "updateScreenImageDispach").async {
+//            self.updateScreenImageDispach()
+//               }
         
+        var timer = Timer.scheduledTimer(timeInterval: 0.002, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
+      
         
 
         self.UpButtonIcon.image = NSImage(named: NSImage.touchBarGoUpTemplateName)!
@@ -65,7 +68,7 @@ class TouchScreenController: NSWindowController {
     
     
     //  update the current screen image
-    func updateScreenImage(){
+    @objc func updateScreenImage(){
             self.CurrentScreenView.image = self.ScreenImage()
 
     }
