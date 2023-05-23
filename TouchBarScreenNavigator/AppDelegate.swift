@@ -11,10 +11,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
-    
-    func isCapslockEnabled(with event: NSEvent) -> Bool {
-        event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains(.capsLock)
-    }
+
     
     
     func HideShowApp(sender: NSStatusBarButton){
