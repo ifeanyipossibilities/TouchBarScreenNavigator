@@ -11,7 +11,6 @@ import Cocoa
 
 //TODO
 //1 Remove initial Window
-//2 add mouse cursor to screen image
 //
 // Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
 
@@ -200,20 +199,26 @@ class TouchScreenController: NSWindowController {
             let displayID = CGMainDisplayID()
             let imageRef = CGDisplayCreateImage(displayID)
             let image =  NSImage(cgImage: imageRef!, size: (NSScreen.main?.frame.size)!)
-            return image
+//
+//            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
+            let mouseimagecursor =  NSImage(named: "cursor")!
+         
+            let newim = image.mergeWith(anotherImage: mouseimagecursor, atPoint: mouseLocation)
+            return newim
         }
     
     
-    
+//    derive cordinate from mouse and use
     func mouseCursorUpdate(){
         let image =  self.ScreenImage()
-            self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX), y: CGFloat(self.state.PosY), width: image.size.width, height: image.size.height))
+        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX-410), y: CGFloat(self.state.PosY-900), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
         
+        print(String(format: "State.Posx l%.0f, %.0f", self.state.PosX-410, self.state.PosY-900))
         print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
-        print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
-        print(String(format: "Image Size l%.0f, %.0f",  image.size.width, image.size.height))
+//        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
+//        print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
+//        print(String(format: "Image Size l%.0f, %.0f",  image.size.width, image.size.height))
     }
     
     func zoomScreen(key: UInt16){
@@ -256,7 +261,23 @@ class TouchScreenController: NSWindowController {
     }
     
     
+    
+}
 
-    
-    
+//https://stackoverflow.com/questions/29348487/osx-uigraphicsbeginimagecontext/
+extension NSImage {
+
+    func mergeWith(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
+
+        self.lockFocus()
+        //draw your stuff here
+
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let frame2 = CGRect(x: point.x, y: point.y-50, width: 50, height: 50)
+        anotherImage.draw(in: frame2)
+
+        self.unlockFocus()
+        return self
+    }
+
 }
