@@ -1,6 +1,6 @@
 # TouchBarScreenNavigator
 
-After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visible damage, I decided to experiment by using the  TouchBar as a substitute screen. With some efforts, I managed to add desired features for navigating to apps and even connect to wifi network to access my system. Still in progresss However,it works just add it to login item.
+After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visible damage, I decided to experiment by using the  TouchBar as a substitute screen. With some efforts, I managed to add desired features for navigating to apps a and even connect to wifi network to access my system. Still in progresss However,it works just add it to login item.
 
 ****
 
@@ -11,6 +11,7 @@ After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visibl
 3. Add TouchSwitcher to Login Item app
 4. Download TouchBarScreenNavigator 
 5. Add TouchBarScreenNavigator to Login Item app
+6. System Setting Lock Screen Accessibility Enable VoiceOver
 
 ## Contribution
 I am venturing into Mac OS App development for the first time out of necessity. My Mac Book 19 is currently displaying a blank screen, and I need assistance with creating a TouchBar App. Specifically, I want to eliminate the blank window and make it a TouchBar only app. Please help.
