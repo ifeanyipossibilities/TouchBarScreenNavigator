@@ -29,13 +29,13 @@ class TouchScreenController: NSWindowController {
 //        Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
         NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
                 print("mouseLocation:", String(format: "%.1f, %.1f", self.mouseLocation.x, self.mouseLocation.y))
-            self.updateScreenImage()
+//            self.updateScreenImagse()
 
                 return $0
             }
             NSEvent.addGlobalMonitorForEvents(matching: [.mouseMoved]) { _ in
                 print(String(format: "%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-                self.updateScreenImage()
+//                self.updateScreenImage()
                 
             }
         
@@ -56,7 +56,8 @@ class TouchScreenController: NSWindowController {
 //            self.updateScreenImageDispach()
 //               }
         
-        var timer = Timer.scheduledTimer(timeInterval: 0.002, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
+//      update screen image using schedule 
+        Timer.scheduledTimer(timeInterval: 0.50, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
       
         
 
