@@ -16,6 +16,7 @@
 		76BC7EF72A1CD2BA0096747F /* TouchBarScreenNavigatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7EF62A1CD2BA0096747F /* TouchBarScreenNavigatorUITests.swift */; };
 		76BC7EF92A1CD2BA0096747F /* TouchBarScreenNavigatorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7EF82A1CD2BA0096747F /* TouchBarScreenNavigatorUITestsLaunchTests.swift */; };
 		76D387F72A1CD63C00A96E40 /* TouchScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */; };
+		76DEFD9C2A1E482000DAE680 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 76DEFD9B2A1E482000DAE680 /* HotKey */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76DEFD9C2A1E482000DAE680 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +145,9 @@
 			dependencies = (
 			);
 			name = TouchBarScreenNavigator;
+			packageProductDependencies = (
+				76DEFD9B2A1E482000DAE680 /* HotKey */,
+			);
 			productName = TouchBarScreenNavigator;
 			productReference = 76BC7ED42A1CD2B80096747F /* TouchBarScreenNavigator.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 76BC7ECB2A1CD2B80096747F;
+			packageReferences = (
+				76DEFD9A2A1E482000DAE680 /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			productRefGroup = 76BC7ED52A1CD2B80096747F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -587,6 +595,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		76DEFD9A2A1E482000DAE680 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		76DEFD9B2A1E482000DAE680 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76DEFD9A2A1E482000DAE680 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		76BC7EDB2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld */ = {

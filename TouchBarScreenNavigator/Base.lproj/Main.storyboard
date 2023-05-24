@@ -701,7 +701,7 @@
                                 <viewController key="viewController" id="hAr-sc-wT4">
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-0v-zCj">
                                         <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                                        <buttonCell key="cell" type="push" title="&lt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kqb-Ss-M1G">
+                                        <buttonCell key="cell" type="push" title="Left" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kqb-Ss-M1G">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" usesAppearanceFont="YES"/>
                                         </buttonCell>
@@ -715,7 +715,7 @@
                                 <viewController key="viewController" id="Uv2-XN-COc">
                                     <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IzS-Wr-eVd">
                                         <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                                        <buttonCell key="cell" type="push" title="&gt;" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qBT-EC-Xsm">
+                                        <buttonCell key="cell" type="push" title="Right" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qBT-EC-Xsm">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" usesAppearanceFont="YES"/>
                                         </buttonCell>
@@ -730,10 +730,10 @@
                                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="gcw-78-QD3">
                                         <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
                                         <subviews>
-                                            <scrollView misplaced="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="3kt-BM-Cm6">
-                                                <rect key="frame" x="0.0" y="0.0" width="380" height="30"/>
+                                            <scrollView borderType="none" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="100" verticalPageScroll="100" hasHorizontalScroller="NO" hasVerticalScroller="NO" allowsMagnification="YES" maxMagnification="100" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kt-BM-Cm6">
+                                                <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
                                                 <clipView key="contentView" id="7jr-JZ-2bE">
-                                                    <rect key="frame" x="0.0" y="0.0" width="380" height="30"/>
+                                                    <rect key="frame" x="0.5" y="0.0" width="410" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DHk-bg-cw4">

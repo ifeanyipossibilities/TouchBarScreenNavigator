@@ -7,12 +7,22 @@
 
 import Cocoa
 
+
+//TODO
+//1 Remove initial Window
+//2 add mouse cursor to screen image
+//
+// Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
 class TouchScreenController: NSWindowController {
 
+   
+    
+    var isCommandPressed = false
     var ScreenLocationX = 0;
     var ScreenLocationY = 0;
     var mouseLocation: NSPoint { NSEvent.mouseLocation }
-
+    var ZoomScreenRatio = Double(0.25)
+    
     @IBOutlet weak var UpButtonIcon: NSButtonCell!
     @IBOutlet weak var ScrollViewImage: NSScrollView!
     @IBOutlet weak var DownButtonicon: NSButtonCell!
@@ -31,22 +41,31 @@ class TouchScreenController: NSWindowController {
         self.DownButtonicon.image = NSImage(named:  NSImage.touchBarGoDownTemplateName)!
         self.RightButtonIcon.image = NSImage(named:  NSImage.touchBarGoForwardTemplateName)!
         self.LeftbuttonIcon.image = NSImage(named:  NSImage.touchBarGoBackTemplateName)!
-    
-        
-        
-//        Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
-        NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
-                print("mouseLocation:", String(format: "%.1f, %.1f", self.mouseLocation.x, self.mouseLocation.y))
-//            self.updateScreenImagse()
 
-                return $0
+        // listen for main keys in the background
+        NSEvent.addGlobalMonitorForEvents(matching: [.keyDown], handler: self.doKeyDown)
+            // listen for modifier keys in the background
+        NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged], handler: self.doModKeyDown)
+            
+            
+            // listen for main keys in the foreground to allow playing around (Global doesn't provide)
+        NSEvent.addLocalMonitorForEvents(matching: [.keyDown])
+            { event in
+                self.doKeyDown(evt: event)
+                return event
             }
-            NSEvent.addGlobalMonitorForEvents(matching: [.mouseMoved]) { _ in
-                print(String(format: "%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-//                self.updateScreenImage()
-                
+            
+            // listen for modifier keys in the foreground to allow playing around (Global doesn't provide)
+          NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged])
+            { event in
+                self.doModKeyDown(evt: event)
+                return event
             }
         
+        
+
+
+//
         self.CurrentScreenView.image =  self.ScreenImage()
         
     
@@ -76,6 +95,9 @@ class TouchScreenController: NSWindowController {
     }
     
     
+
+    
+    
     //  update the current screen image
     @objc func updateScreenImage(){
             self.CurrentScreenView.image = self.ScreenImage()
@@ -97,31 +119,25 @@ class TouchScreenController: NSWindowController {
     @IBAction func GoLeft(_ sender: Any) {
         let image =  self.ScreenImage()
             self.ScreenLocationX -= 10
-           
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
+        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        
 
         
     }
 //    Go right when button tapped
     @IBAction func GoRight(_ sender: Any) {
         let image =  self.ScreenImage()
-        
             self.ScreenLocationX += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
+        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+       
 
         
     }
     
-    
-//    Function to capture the current screen
-    func ScreenImage() -> NSImage{
-        let displayID = CGMainDisplayID()
-        let imageRef = CGDisplayCreateImage(displayID)
-        let image =  NSImage(cgImage: imageRef!, size: (NSScreen.main?.frame.size)!)
-        return image
-    }
     
 //    Go Up when button tapped
     @IBAction func GoUp(_ sender: Any) {
@@ -129,6 +145,7 @@ class TouchScreenController: NSWindowController {
             self.ScreenLocationY += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
+        self.ScrollViewImage.magnification = self.ZoomScreenRatio
         
  
     }
@@ -140,15 +157,69 @@ class TouchScreenController: NSWindowController {
             self.ScreenLocationY -= 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
+        
     
         
     }
     
+    //    Function to capture the current screen
+        func ScreenImage() -> NSImage{
+            //        print(String(format: "%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
+            let displayID = CGMainDisplayID()
+            let imageRef = CGDisplayCreateImage(displayID)
+            let image =  NSImage(cgImage: imageRef!, size: (NSScreen.main?.frame.size)!)
+            return image
+        }
     
-  
+    
+    
+    func zoomScreen(key: UInt16){
+        let image =  self.ScreenImage()
+        self.CurrentScreenView.image = image
+        let zoomPlus = (key == 24)
+        let zoomMinus = (key == 27)
+        if zoomPlus{
+            self.ZoomScreenRatio += Double(0.15)
+        }else if zoomMinus{
+            self.ZoomScreenRatio -= Double(0.15)
+        }else{
+            self.ZoomScreenRatio = 0.25
+        }
+//        self.ScrollViewImage.setMagnification(CGFloat(self.ZoomScreenRatio),centeredAt: NSPoint(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY)))
+   
+        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
+        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: frame.size.width, height: frame.size.height))
+        
+       self.ScrollViewImage.magnification = self.ZoomScreenRatio
 
+       
+//              frame.size.width += 10
+//              frame.size.height += 10
+
+//    self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
+    }
+
+    func doKeyDown(evt: NSEvent) {
+//        print ("key \(evt.keyCode)")
+        let key = evt.keyCode
+        let zoomPlus = (key == 24)
+        let zoomMinus = (key == 27)
+        let zoomReset = (key == 29)
+        
+        if self.isCommandPressed && (zoomPlus || zoomMinus || zoomReset) {
+            self.zoomScreen(key: key)
+        }
+    }
+    
+    func doModKeyDown(evt: NSEvent) {
+        let key = evt.keyCode
+        let isCommandPressed = (key == 55)
+        self.isCommandPressed = isCommandPressed
+        
+    }
     
     
+
     
     
 }
