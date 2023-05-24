@@ -25,6 +25,14 @@ class TouchScreenController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+//        set buttom icons
+
+        self.UpButtonIcon.image = NSImage(named: NSImage.touchBarGoUpTemplateName)!
+        self.DownButtonicon.image = NSImage(named:  NSImage.touchBarGoDownTemplateName)!
+        self.RightButtonIcon.image = NSImage(named:  NSImage.touchBarGoForwardTemplateName)!
+        self.LeftbuttonIcon.image = NSImage(named:  NSImage.touchBarGoBackTemplateName)!
+    
+        
         
 //        Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
         NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
@@ -41,30 +49,30 @@ class TouchScreenController: NSWindowController {
         
         self.CurrentScreenView.image =  self.ScreenImage()
         
-        guard var frame = self.ScrollViewImage.documentView?.frame else { return }
+    
+        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
 
        
 //              frame.size.width += 10
 //              frame.size.height += 10
 
     self.ScrollViewImage.animator().magnify(toFit: frame)
-             
         
-//        cause memory
-////        dispach thread to update screen image but this seems not to be updating
-//        DispatchQueue(label: "updateScreenImageDispach").async {
-//            self.updateScreenImageDispach()
-//               }
         
-//      update screen image using schedule 
-        Timer.scheduledTimer(timeInterval: 0.50, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
-      
         
-
-        self.UpButtonIcon.image = NSImage(named: NSImage.touchBarGoUpTemplateName)!
-        self.DownButtonicon.image = NSImage(named:  NSImage.touchBarGoDownTemplateName)!
-        self.RightButtonIcon.image = NSImage(named:  NSImage.touchBarGoForwardTemplateName)!
-        self.LeftbuttonIcon.image = NSImage(named:  NSImage.touchBarGoBackTemplateName)!
+                   
+              
+      //        costs memory
+      ////        dispach thread to update screen image but this seems not to be updating
+      //        DispatchQueue(label: "updateScreenImageDispach").async {
+      //            self.updateScreenImageDispach()
+      //               }
+              
+      //      update screen image using schedule
+              Timer.scheduledTimer(timeInterval: 0.50, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
+            
+        
+        
     }
     
     
@@ -98,6 +106,7 @@ class TouchScreenController: NSWindowController {
 //    Go right when button tapped
     @IBAction func GoRight(_ sender: Any) {
         let image =  self.ScreenImage()
+        
             self.ScreenLocationX += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image

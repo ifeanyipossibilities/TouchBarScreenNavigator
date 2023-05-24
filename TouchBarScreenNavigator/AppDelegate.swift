@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
         
-        
+        NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
       
     }
     
