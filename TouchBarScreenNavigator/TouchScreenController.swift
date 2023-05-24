@@ -147,9 +147,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    Go Left when button is tapped
     @IBAction func GoLeft(_ sender: Any) {
         let image =  self.ScreenImage()
+        self.CurrentScreenView.image = image
             self.ScreenLocationX -= 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.CurrentScreenView.image = image
         self.ScrollViewImage.magnification = self.ZoomScreenRatio
         
 
@@ -158,9 +158,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    Go right when button tapped
     @IBAction func GoRight(_ sender: Any) {
         let image =  self.ScreenImage()
+        self.CurrentScreenView.image = image
             self.ScreenLocationX += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.CurrentScreenView.image = image
         self.ScrollViewImage.magnification = self.ZoomScreenRatio
        
 
@@ -171,10 +171,11 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    Go Up when button tapped
     @IBAction func GoUp(_ sender: Any) {
         let image =  self.ScreenImage()
+        self.CurrentScreenView.image = image
             self.ScreenLocationY += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.CurrentScreenView.image = image
         self.ScrollViewImage.magnification = self.ZoomScreenRatio
+       
         
  
     }
@@ -183,9 +184,10 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     @IBAction func GoDown(_ sender: Any) {
         let image =  self.ScreenImage()
+        self.CurrentScreenView.image = image
             self.ScreenLocationY -= 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.CurrentScreenView.image = image
+        self.ScrollViewImage.magnification = self.ZoomScreenRatio
         
     
         
