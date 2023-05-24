@@ -84,7 +84,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //                print(String(format: "l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
                 self.state.PosX = Double(self.mouseLocation.x)
                 self.state.PosY = Double(self.mouseLocation.y)
-                self.mouseCursorUpdate()
+//            disabling the cursor image update it's not currenly useable
+//                self.mouseCursorUpdate()
 
                 return $0
             }
@@ -94,7 +95,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
                 self.state.PosX =  Double(self.mouseLocation.x)
                 self.state.PosY =  Double(self.mouseLocation.y)
-                self.mouseCursorUpdate()
+////            disabling the cursor image update it's not currenly useable
+//                self.mouseCursorUpdate()
             }
 
 //
@@ -115,7 +117,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
       //               }
               
       //      update screen image using schedule
-              Timer.scheduledTimer(timeInterval: 0.50, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
+              Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)
             
         
         
@@ -206,9 +208,12 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
 //    derive cordinate from mouse and use
     func mouseCursorUpdate(){
+        
+        
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
-        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX-410), y: CGFloat(self.state.PosY-900), width: image.size.width, height: image.size.height))
+        
+        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX), y: CGFloat(self.state.PosY), width: image.size.width, height: image.size.height))
       
         
 //        print(String(format: "State.Posx l%.0f, %.0f", self.state.PosX-410, self.state.PosY-900))
