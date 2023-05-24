@@ -730,10 +730,10 @@
                                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="gcw-78-QD3">
                                         <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
                                         <subviews>
-                                            <scrollView borderType="none" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="100" verticalPageScroll="100" hasHorizontalScroller="NO" hasVerticalScroller="NO" allowsMagnification="YES" maxMagnification="100" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kt-BM-Cm6">
+                                            <scrollView borderType="none" horizontalLineScroll="1" horizontalPageScroll="1" verticalLineScroll="100" verticalPageScroll="100" hasHorizontalScroller="NO" hasVerticalScroller="NO" allowsMagnification="YES" maxMagnification="100" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kt-BM-Cm6">
                                                 <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
                                                 <clipView key="contentView" id="7jr-JZ-2bE">
-                                                    <rect key="frame" x="0.5" y="0.0" width="410" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="410" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DHk-bg-cw4">

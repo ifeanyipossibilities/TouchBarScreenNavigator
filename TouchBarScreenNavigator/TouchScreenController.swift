@@ -8,11 +8,25 @@
 import Cocoa
 
 
+
 //TODO
 //1 Remove initial Window
 //2 add mouse cursor to screen image
 //
 // Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
+
+struct KeyboardEvent {
+    var KeyCode = 0
+    var Status = 0
+}
+struct CursorPosition {
+    var PosX = 0.0
+    var PosY = 0.0
+    var MouseLeftStatus = 0
+    var Keys = [KeyboardEvent]()
+}
+
+
 class TouchScreenController: NSWindowController {
 
    
@@ -21,7 +35,8 @@ class TouchScreenController: NSWindowController {
     var ScreenLocationX = 0;
     var ScreenLocationY = 0;
     var mouseLocation: NSPoint { NSEvent.mouseLocation }
-    var ZoomScreenRatio = Double(0.25)
+//    var mouseLocation: CGPoint = .zero
+    var ZoomScreenRatio = Double(0.1)
     
     @IBOutlet weak var UpButtonIcon: NSButtonCell!
     @IBOutlet weak var ScrollViewImage: NSScrollView!
@@ -30,7 +45,8 @@ class TouchScreenController: NSWindowController {
     @IBOutlet weak var RightButtonIcon: NSButton!
     @IBOutlet weak var CurrentScreenView: NSImageCell!
     
-    
+
+    var state: CursorPosition = CursorPosition(PosX: 0.0, PosY: 0.0, MouseLeftStatus: 0, Keys:[])
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -63,7 +79,23 @@ class TouchScreenController: NSWindowController {
             }
         
         
+        NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+//                self.mouseLocation = NSEvent.mouseLocation()
+                print(String(format: "l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
+                self.state.PosX = Double(self.mouseLocation.x)
+                self.state.PosY = Double(self.mouseLocation.y)
+                self.mouseCursorUpdate()
 
+                return $0
+            }
+        
+        
+            NSEvent.addGlobalMonitorForEvents(matching: [.mouseMoved]) { _ in
+
+                self.state.PosX =  Double(self.mouseLocation.x)
+                self.state.PosY =  Double(self.mouseLocation.y)
+                self.mouseCursorUpdate()
+            }
 
 //
         self.CurrentScreenView.image =  self.ScreenImage()
@@ -173,6 +205,17 @@ class TouchScreenController: NSWindowController {
     
     
     
+    func mouseCursorUpdate(){
+        let image =  self.ScreenImage()
+            self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX), y: CGFloat(self.state.PosY), width: image.size.width, height: image.size.height))
+        self.CurrentScreenView.image = image
+        
+        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
+        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
+        print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
+        print(String(format: "Image Size l%.0f, %.0f",  image.size.width, image.size.height))
+    }
+    
     func zoomScreen(key: UInt16){
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
@@ -185,18 +228,12 @@ class TouchScreenController: NSWindowController {
         }else{
             self.ZoomScreenRatio = 0.25
         }
-//        self.ScrollViewImage.setMagnification(CGFloat(self.ZoomScreenRatio),centeredAt: NSPoint(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY)))
    
-        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
-        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: frame.size.width, height: frame.size.height))
+        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         
        self.ScrollViewImage.magnification = self.ZoomScreenRatio
 
-       
-//              frame.size.width += 10
-//              frame.size.height += 10
 
-//    self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
     }
 
     func doKeyDown(evt: NSEvent) {
