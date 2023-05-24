@@ -9,7 +9,9 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    var newWindow: NSWindow?
+     var controller: ViewController?
+    
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
 
     
@@ -26,12 +28,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let MenuButton = statusItem.button {
                  MenuButton.image = NSImage(named: "cansee")
                  MenuButton.image?.size = NSSize(width: 18.0, height: 18.0)
-                 MenuButton.action = Selector("HideShowApp:")
+            MenuButton.action = Selector(("HideShowApp:"))
              }
         
 
 
-        
+   
         
         
 //        am trying to hide the app since i only need the Touch Bar screen
@@ -45,11 +47,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         mainWC.window!.orderOut(nil) //DOESN WORK
         mainWC.window?.close() //DOESN WORK
-
-
+        mainWC.window?.orderBack(nil)
         
+
+
+
         NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-      
+        NSApplication.shared.windows.first?.close()
+        NSApplication.shared.windows.last?.close()
+        
+        
+        
+    
+    
+    
+    
     }
     
 
@@ -155,4 +167,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
+
+
+
 

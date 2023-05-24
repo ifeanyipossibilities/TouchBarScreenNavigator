@@ -12,7 +12,6 @@ import Cocoa
 //TODO
 //1 Remove initial Window
 //
-// Mouse location or mouse Pointer is hidden in the screen capture how do i locate the pointer? now just printing the cordinate doing nothing with them maybe append the cordination to the image
 
 struct KeyboardEvent {
     var KeyCode = 0
@@ -26,7 +25,7 @@ struct CursorPosition {
 }
 
 
-class TouchScreenController: NSWindowController {
+class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
    
     
@@ -57,20 +56,21 @@ class TouchScreenController: NSWindowController {
         self.RightButtonIcon.image = NSImage(named:  NSImage.touchBarGoForwardTemplateName)!
         self.LeftbuttonIcon.image = NSImage(named:  NSImage.touchBarGoBackTemplateName)!
 
-        // listen for main keys in the background
+        
+        // listen for zoom keys combo in the background
         NSEvent.addGlobalMonitorForEvents(matching: [.keyDown], handler: self.doKeyDown)
-            // listen for modifier keys in the background
+            // listen for zoom keys combo in the background
         NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged], handler: self.doModKeyDown)
             
             
-            // listen for main keys in the foreground to allow playing around (Global doesn't provide)
+            // listen for zoom keys combo in the foreground to allow playing around (Global doesn't provide)
         NSEvent.addLocalMonitorForEvents(matching: [.keyDown])
             { event in
                 self.doKeyDown(evt: event)
                 return event
             }
             
-            // listen for modifier keys in the foreground to allow playing around (Global doesn't provide)
+            // listen for zoom keys combo keys in the foreground to allow playing around (Global doesn't provide)
           NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged])
             { event in
                 self.doModKeyDown(evt: event)
@@ -78,9 +78,10 @@ class TouchScreenController: NSWindowController {
             }
         
         
+//        update screen based on mousemovement
         NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
 //                self.mouseLocation = NSEvent.mouseLocation()
-                print(String(format: "l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
+//                print(String(format: "l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
                 self.state.PosX = Double(self.mouseLocation.x)
                 self.state.PosY = Double(self.mouseLocation.y)
                 self.mouseCursorUpdate()
@@ -101,12 +102,7 @@ class TouchScreenController: NSWindowController {
         
     
         guard let frame = self.ScrollViewImage.documentView?.frame else { return }
-
-       
-//              frame.size.width += 10
-//              frame.size.height += 10
-
-    self.ScrollViewImage.animator().magnify(toFit: frame)
+        self.ScrollViewImage.animator().magnify(toFit: frame)
         
         
         
@@ -211,11 +207,12 @@ class TouchScreenController: NSWindowController {
 //    derive cordinate from mouse and use
     func mouseCursorUpdate(){
         let image =  self.ScreenImage()
-        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX-410), y: CGFloat(self.state.PosY-900), width: image.size.width, height: image.size.height))
         self.CurrentScreenView.image = image
+        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX-410), y: CGFloat(self.state.PosY-900), width: image.size.width, height: image.size.height))
+      
         
-        print(String(format: "State.Posx l%.0f, %.0f", self.state.PosX-410, self.state.PosY-900))
-        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
+//        print(String(format: "State.Posx l%.0f, %.0f", self.state.PosX-410, self.state.PosY-900))
+//        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
 //        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
 //        print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
 //        print(String(format: "Image Size l%.0f, %.0f",  image.size.width, image.size.height))
@@ -261,10 +258,13 @@ class TouchScreenController: NSWindowController {
     }
     
     
-    
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+          NSApp.hide(nil)
+          return false
+      }
 }
 
-//https://stackoverflow.com/questions/29348487/osx-uigraphicsbeginimagecontext/
+//derived from https://stackoverflow.com/questions/29348487/osx-uigraphicsbeginimagecontext/
 extension NSImage {
 
     func mergeWith(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
