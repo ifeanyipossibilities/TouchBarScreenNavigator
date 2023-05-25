@@ -9,8 +9,6 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var newWindow: NSWindow?
-     var controller: ViewController?
     
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
 
@@ -53,8 +51,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
         NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-        NSApplication.shared.windows.first?.close()
-        NSApplication.shared.windows.last?.close()
+        NSApplication.shared.windows.first?.close() //DOESN WORK
+        NSApplication.shared.windows.last?.close() //DOESN WORK
         
         
         
