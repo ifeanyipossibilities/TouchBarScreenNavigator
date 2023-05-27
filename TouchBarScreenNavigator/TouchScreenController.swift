@@ -51,7 +51,7 @@ public func **(_ base: Int, _ exponent: Int) -> Int {
 
 
 //Return True if all elements of the iterable are true (or if the iterable is empty). Equivalent to:
-func all(iterable: [Any]) -> Bool {
+func all(_ iterable: [Any]) -> Bool {
     for element in iterable {
         if (element as? Bool) == false {
             return false
@@ -72,10 +72,10 @@ func runcmd(_ cmd: String ) -> Bool {
 }
 
 // get the current difference from the mousepointer to each of the corner (radius)
-func diffScreenDimention2d(corners: [[Int]], res: [Int], pos: [Int]) -> [Int] {
+func diffScreenDimention2d(corners: [[Int]], axis: [Int], pos: [Int]) -> [Int] {
     
 
- let diff = corners.map { c in Int(sqrt(Double(res.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
+ let diff = corners.map { c in Int(sqrt(Double(axis.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
     
     return diff
 }
@@ -108,19 +108,20 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     var ScreenHeight = 1080
     var ScreenWidth = 1920
 //    # set distance (hotcorner sensitivity)
-    let radius = 20
+    let radius = 100
 
-//    # top-left, top-right, bottom-left, bottom-right
+//    # top-left, top-right, bottom-left, bottom-right, Center
     let ScreenCordinateLabel = [
         "top-left",
         "top-right",
         "bottom-left",
         "bottom-right",
+        "Center"
         ]
     
     //   # list Screen Corners
-    //   # top-left, top-right, bottom-left, bottom-right
-    var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080]]
+    //   # top-left, top-right, bottom-left, bottom-right, center
+    var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080],  [1920/2, 1080/2]]
     //Screen Dimention
     var ScreenDimention = [1920, 1080]
     
@@ -151,18 +152,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         super.windowDidLoad()
 //        test our Exponentiation operator
         self.test_power()
-        
-        if let screen = NSScreen.main {
-            let rect = screen.frame
-            self.ScreenHeight = Int(rect.size.height)
-            self.ScreenWidth = Int( rect.size.width)
-        }
-        
-//        # list Screen Corners
-//        # top-left, top-right, bottom-left, bottom-right
-        self.ScreenCorner = [[0, 0], [ScreenWidth, 0], [0, self.ScreenHeight], [self.ScreenWidth, self.ScreenHeight]]
-//        Screen Dimention
-        self.ScreenDimention = [ self.ScreenWidth,self.ScreenHeight]
+        self.setScreenDimention()
               
         
 //        set buttom icons
@@ -241,7 +231,19 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     
 
-    
+    func setScreenDimention(){
+        if let screen = NSScreen.main {
+            let rect = screen.frame
+            self.ScreenHeight = Int(rect.size.height)
+            self.ScreenWidth = Int( rect.size.width)
+        }
+        
+//        # list Screen Corners
+//        # top-left, top-right, bottom-left, bottom-right , center
+        self.ScreenCorner = [[0, 0], [ScreenWidth, 0], [0, self.ScreenHeight], [self.ScreenWidth, self.ScreenHeight],  [self.ScreenWidth/2, self.ScreenHeight/2]]
+//        Screen Dimention
+        self.ScreenDimention = [ self.ScreenWidth,self.ScreenHeight]
+    }
     
     //  update the current screen image
     @objc func updateScreenImage(){
@@ -328,6 +330,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    derive cordinate from mouse and use
     func mouseCursorUpdate(){
         
+        self.setScreenDimention()
+        
 //                guard let frame = self.ScrollViewImage.documentView?.frame else { return }
 //        self.ScrollViewImage.contentView.documentCursor = NSCursor.iBeam;
 //            print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
@@ -346,12 +350,19 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         let y2 = self.state.PosY / 2
       
 //        hot corners tracking
-        self.screenCordinateDiff = diffScreenDimention2d(corners: self.ScreenCorner, res:self.ScreenDimention, pos: pos)
-        self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? 0]
+        self.screenCordinateDiff = diffScreenDimention2d(corners: self.ScreenCorner, axis:self.ScreenDimention, pos: pos)
+        self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? -1]
 //        Todo track screen cordinate possition for HotCorners Misc option
-        if all(iterable:[self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
-            let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
-            print(CordinateLabel)
+
+        if all([self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
+            if self.previousScreenCordinate[0] != -1 {
+                let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
+                print(CordinateLabel)
+//                runcmd("say \(CordinateLabel) ")
+            }
+            
+//            let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
+//            print(CordinateLabel)
 //            runcmd("say \(CordinateLabel) ")
 //            self.currentScreenCordinate = self.previousScreenCordinate
             //            self.updateScreenImageDispach()
@@ -362,6 +373,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //                           }
             
         }
+//        print("Diff \(self.screenCordinateDiff)")
+//        print("Prev \(self.previousScreenCordinate)")
+//        print(" Current \(self.currentScreenCordinate)")
 
         self.currentScreenCordinate = self.previousScreenCordinate
 //        print(String(format: "x %.0f, %.0f", x, y))
