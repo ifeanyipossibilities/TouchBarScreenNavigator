@@ -17,6 +17,7 @@
 		76BC7EF92A1CD2BA0096747F /* TouchBarScreenNavigatorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7EF82A1CD2BA0096747F /* TouchBarScreenNavigatorUITestsLaunchTests.swift */; };
 		76D387F72A1CD63C00A96E40 /* TouchScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */; };
 		76DEFD9C2A1E482000DAE680 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 76DEFD9B2A1E482000DAE680 /* HotKey */; };
+		76E879912A222EB300074E41 /* ScrollViewWithEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E879902A222EB300074E41 /* ScrollViewWithEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		76BC7EF62A1CD2BA0096747F /* TouchBarScreenNavigatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchBarScreenNavigatorUITests.swift; sourceTree = "<group>"; };
 		76BC7EF82A1CD2BA0096747F /* TouchBarScreenNavigatorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchBarScreenNavigatorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchScreenController.swift; sourceTree = "<group>"; };
+		76E879902A222EB300074E41 /* ScrollViewWithEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			children = (
 				76BC7ED72A1CD2B80096747F /* AppDelegate.swift */,
 				76BC7ED92A1CD2B80096747F /* ViewController.swift */,
+				76E879902A222EB300074E41 /* ScrollViewWithEvent.swift */,
 				76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */,
 				76BC7EDE2A1CD2B90096747F /* Assets.xcassets */,
 				76BC7EE02A1CD2B90096747F /* Main.storyboard */,
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76BC7EDA2A1CD2B80096747F /* ViewController.swift in Sources */,
+				76E879912A222EB300074E41 /* ScrollViewWithEvent.swift in Sources */,
 				76D387F72A1CD63C00A96E40 /* TouchScreenController.swift in Sources */,
 				76BC7ED82A1CD2B80096747F /* AppDelegate.swift in Sources */,
 				76BC7EDD2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld in Sources */,

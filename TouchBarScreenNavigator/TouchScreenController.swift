@@ -6,13 +6,83 @@
 //
 
 import Cocoa
+import Foundation
+
+//derived from https://stackoverflow.com/questions/24065801/exponentiation-operator-in-swift
+precedencegroup ExponeniationPrecedence {
+    associativity: right  // This makes Towers of Powers work correctly
+    higherThan: MultiplicationPrecedence
+}
+
+
+infix operator ** : ExponeniationPrecedence
+public func **(_ x: Decimal, _ y: Int) -> Decimal {
+    //print("_ \(x): Decimal, _ \(y): Int")
+       var res = Decimal()
+        var num = x
+        NSDecimalPower(&res, &num, y, .plain)
+        return res
+    
+}
+public func **(_ base: Double, _ exponent: Double) -> Double {
+    //print("_ \(base): Double, _ \(exponent): Double")
+    return pow(base, exponent)
+}
+public func **(_ base: Float, _ exponent: Float) -> Float {
+    //print("_ \(base): Float, _ \(exponent): Float")
+    return powf(base, exponent)
+}
+public func **(_ base: Int, _ exponent: Int) -> Int {
+    var result = 0
+    //print("_ \(base): Int, _ \(exponent): Int")
+    let test = pow(Decimal(base), exponent)
+    let k = NSDecimalNumber(decimal: test)
+    guard let nsDecimal = NSDecimalNumber(decimal: test) as? NSDecimalNumber,
+                nsDecimal != NSDecimalNumber.notANumber else {
+                
+                return result
+            }
+    
+    result = Int(truncating: k)
+    return result
+}
+
+
+//Return True if all elements of the iterable are true (or if the iterable is empty). Equivalent to:
+func all(iterable: [Any]) -> Bool {
+    for element in iterable {
+        if (element as? Bool) == false {
+            return false
+        }
+    }
+    return true
+}
+
+// run command on system
+func runcmd(_ cmd: String ) -> Bool {
+    let task = Process()
+    task.launchPath = "/bin/bash"
+    task.arguments = ["-c", cmd]
+    task.launch()
+    task.waitUntilExit()
+    let status = task.terminationStatus
+    return status == 0
+}
+
+// get the current difference from the mousepointer to each of the corner (radius)
+func diffScreenDimention2d(corners: [[Int]], res: [(Int, Int)], pos: [Int]) -> [Int] {
+    
+    let diff = corners.map { c in Int(sqrt(Double(res.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
+    
+    return diff
+}
 
 
 
 //TODO
 //1 Remove initial Window
 //
-
+//keyboard and mouse monitor
 struct KeyboardEvent {
     var KeyCode = 0
     var Status = 0
@@ -25,10 +95,38 @@ struct CursorPosition {
 }
 
 
+
+
+
 class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
-   
     
+//    set display height
+    var ScreenHeight = 1080
+    var ScreenWidth = 1920
+//    # set distance (hotcorner sensitivity)
+    let radius = 20
+
+//    # top-left, top-right, bottom-left, bottom-right
+    let ScreenCordinateLabel = [
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right",
+        ]
+    
+    //   # list Screen Corners
+    //   # top-left, top-right, bottom-left, bottom-right
+    var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080]]
+    //Screen Dimention
+    var ScreenDimention = [(0, 1920), (1, 1080)]
+    
+//    Last Screen Position Differnce Variable
+    var screenCordinateDiff = [Int()]
+    var currentScreenCordinate = [Int()]
+    var previousScreenCordinate  = [Int()]
+        
+//    Track key event
     var isCommandPressed = false
     var ScreenLocationX = 0;
     var ScreenLocationY = 0;
@@ -48,6 +146,21 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        self.test_power()
+        
+        if let screen = NSScreen.main {
+            let rect = screen.frame
+            self.ScreenHeight = Int(rect.size.height)
+            self.ScreenWidth = Int( rect.size.width)
+        }
+        
+//        # list Screen Corners
+//        # top-left, top-right, bottom-left, bottom-right
+        self.ScreenCorner = [[0, 0], [ScreenWidth, 0], [0, self.ScreenHeight], [self.ScreenWidth, self.ScreenHeight]]
+//        Screen Dimention
+        self.ScreenDimention = [(0, self.ScreenWidth), (1, self.ScreenHeight)]
+              
         
 //        set buttom icons
 
@@ -84,8 +197,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //                print(String(format: "l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
                 self.state.PosX = Double(self.mouseLocation.x)
                 self.state.PosY = Double(self.mouseLocation.y)
-//            disabling the cursor image update it's not currenly useable
-//                self.mouseCursorUpdate()
+//            follow mouse pointer centering the cursor as we track the movement
+                self.mouseCursorUpdate()
 
                 return $0
             }
@@ -95,8 +208,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
                 self.state.PosX =  Double(self.mouseLocation.x)
                 self.state.PosY =  Double(self.mouseLocation.y)
-////            disabling the cursor image update it's not currenly useable
-//                self.mouseCursorUpdate()
+                //            follow mouse pointer centering the cursor as we track the movement
+                self.mouseCursorUpdate()
             }
 
 //
@@ -150,7 +263,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         self.CurrentScreenView.image = image
             self.ScreenLocationX -= 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
         
 
         
@@ -161,7 +274,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         self.CurrentScreenView.image = image
             self.ScreenLocationX += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
        
 
         
@@ -174,7 +287,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         self.CurrentScreenView.image = image
             self.ScreenLocationY += 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
        
         
  
@@ -187,7 +300,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         self.CurrentScreenView.image = image
             self.ScreenLocationY -= 10
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
         
     
         
@@ -202,7 +315,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //
 //            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
             let mouseimagecursor =  NSImage(named: "cursor")!
-         
+//            print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
             let newim = image.mergeWith(anotherImage: mouseimagecursor, atPoint: mouseLocation)
             return newim
         }
@@ -211,18 +324,49 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    derive cordinate from mouse and use
     func mouseCursorUpdate(){
         
-        
+//                guard let frame = self.ScrollViewImage.documentView?.frame else { return }
+//        self.ScrollViewImage.contentView.documentCursor = NSCursor.iBeam;
+//            print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
         
-        self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.state.PosX), y: CGFloat(self.state.PosY), width: image.size.width, height: image.size.height))
-      
         
-//        print(String(format: "State.Posx l%.0f, %.0f", self.state.PosX-410, self.state.PosY-900))
+        //    Last mouse known Position
+        let pos =  [Int(self.state.PosX),Int( self.state.PosY)]
+        
+        let x = (CGFloat(self.state.PosX))
+        let y = (CGFloat(self.state.PosY))
+
+        let x2 = self.state.PosX / 2
+        let y2 = self.state.PosY / 2
+      
+        self.screenCordinateDiff = diffScreenDimention2d(corners: self.ScreenCorner, res:self.ScreenDimention, pos: pos)
+        self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? 0]
+//        Todo track screen cordinate possition for HotCorners Misc option
+        if all(iterable:[self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
+            let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
+            print(CordinateLabel)
+//            self.currentScreenCordinate = self.previousScreenCordinate
+            //            self.updateScreenImageDispach()
+            //               }
+//
+//                    DispatchQueue(label: "updateScreenImageDispach").async {
+//                        runcmd("say \(CordinateLabel) ")
+//                           }
+            
+        }
+
+        self.currentScreenCordinate = self.previousScreenCordinate
+//        print(String(format: "x %.0f, %.0f", x, y))-
+//        print(String(format: " x1,  x2  %.0f, %.0f",   x1,  x2 ))
+//        print(String(format: " y1,  y2 %.0f, %.0f",  y1,  y2))
 //        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-//        guard let frame = self.ScrollViewImage.documentView?.frame else { return }
-//        print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
-//        print(String(format: "Image Size l%.0f, %.0f",  image.size.width, image.size.height))
+
+        self.ScrollViewImage.magnify(toFit: NSRect(x: x2, y: y2, width: x, height: y))
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: x2, y: y2))
+        self.CurrentScreenView.image = image
+        
+        
     }
     
     func zoomScreen(key: UInt16){
@@ -239,8 +383,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         }
    
         self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
-        
-       self.ScrollViewImage.magnification = self.ZoomScreenRatio
+        self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
 
 
     }
@@ -269,10 +412,98 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
           NSApp.hide(nil)
           return false
       }
+    
+    func test_power(){
+        // Test Exponent = 0
+        assert(0**0 == 1)
+        assert(1**0 == 1)
+        assert(2**0 == 1)
+
+        // Test Exponent = 1
+        assert(-1**1 == -1)
+        assert(0**1 == 0)
+        assert(1**1 == 1)
+        assert(2**1 == 2)
+
+        // Test Exponent = -1
+        assert(-1 ** -1 == -1)
+        assert(0 ** -1 == 0)
+        assert(1 ** -1 == 1)
+        assert(2 ** -1 == 0)
+
+        // Test Exponent = 2
+        assert(-1 ** 2 == 1)
+        assert(0 ** 2 == 0)
+        assert(1 ** 2 == 1)
+        assert(2 ** 2 == 4)
+        assert(3 ** 2 == 9)
+
+        // Test Base = 0
+        assert(0**0 == 1)
+        assert(0**1 == 0)
+        assert(0**2 == 0)
+
+        // Test Base = 1
+        assert(1 ** -1 == 1)
+        assert(1**0 == 1)
+        assert(1**1 == 1)
+        assert(1**2 == 1)
+
+        // Test Base = -1
+        assert(-1 ** -1 == -1)
+        assert(-1**0 == 1)
+        assert(-1**1 == -1)
+        assert(-1**2 == 1)
+        assert(-1**2 == 1)
+        assert(-1**3 == -1)
+
+        // Test Base = 2
+        assert(2 ** -1 == 0)
+        assert(2**0 == 1)
+        assert(2**1 == 2)
+        assert(2**2 == 4)
+        assert(2**3 == 8)
+
+        // Test Base = -2
+        assert(-2 ** -1 == 0)
+        assert(-2**0 == 1)
+        assert(-2**1 == -2)
+        assert(-2**2 == 4)
+        assert(-2**3 == -8)
+
+        // Test Base = 3
+        assert(3 ** -1 == 0)
+        assert(3**0 == 1)
+        assert(3**1 == 3)
+        assert(3**2 == 9)
+        assert(3**3 == 27)
+
+        // Test Towers of Powers
+        assert(2**2**2 == 16)
+        assert(3**2**2 == 81)
+        assert(2**2**3 == 256)
+        assert(2**3**2 == 512)
+    }
 }
 
 //derived from https://stackoverflow.com/questions/29348487/osx-uigraphicsbeginimagecontext/
+//extended
 extension NSImage {
+    
+    var pngData: Data? {
+        guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
+        return bitmapImage.representation(using: .png, properties: [:])
+    }
+    func pngWrite(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
+        do {
+            try pngData?.write(to: url, options: options)
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    
 
     func mergeWith(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
 
