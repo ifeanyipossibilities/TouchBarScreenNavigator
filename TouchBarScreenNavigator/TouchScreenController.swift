@@ -318,7 +318,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
             let mouseimagecursor =  NSImage(named: "cursor")!
 //            print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-            let newim = image.mergeWith(anotherImage: mouseimagecursor, atPoint: mouseLocation)
+            let newim = image.mouseDraw(anotherImage: mouseimagecursor, atPoint: mouseLocation)
             return newim
         }
     
@@ -496,6 +496,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //extended
 extension NSImage {
     
+//    to save png
     var pngData: Data? {
         guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
         return bitmapImage.representation(using: .png, properties: [:])
@@ -511,17 +512,34 @@ extension NSImage {
     }
     
 
-    func mergeWith(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
+    func mouseDraw(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
 
         self.lockFocus()
         //draw your stuff here
 
         self.draw(in: CGRect(origin: .zero, size: size))
+//        mouse cordinate - mouse height
         let frame2 = CGRect(x: point.x, y: point.y-50, width: 50, height: 50)
         anotherImage.draw(in: frame2)
 
         self.unlockFocus()
         return self
     }
+    
+    
+    func mergeWith(anotherImage: NSImage,  atPoint point:NSPoint) -> NSImage {
+
+            self.lockFocus()
+            //draw your stuff here
+
+            self.draw(in: CGRect(origin: .zero, size: size))
+            let frame2 = CGRect(x: point.x, y: point.y, width: size.width/3, height: size.height/3)
+            anotherImage.draw(in: frame2)
+
+            self.unlockFocus()
+            return self
+        }
+
+    
 
 }
