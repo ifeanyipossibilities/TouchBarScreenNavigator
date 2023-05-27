@@ -9,7 +9,7 @@ import Cocoa
 import Foundation
 
 
-//Exponentiation operator in Swift
+//Custom Exponentiation operator in Swift
 //derived from https://stackoverflow.com/questions/24065801/exponentiation-operator-in-swift
 precedencegroup ExponeniationPrecedence {
     associativity: right  // This makes Towers of Powers work correctly
@@ -72,9 +72,10 @@ func runcmd(_ cmd: String ) -> Bool {
 }
 
 // get the current difference from the mousepointer to each of the corner (radius)
-func diffScreenDimention2d(corners: [[Int]], res: [(Int, Int)], pos: [Int]) -> [Int] {
+func diffScreenDimention2d(corners: [[Int]], res: [Int], pos: [Int]) -> [Int] {
     
-    let diff = corners.map { c in Int(sqrt(Double(res.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
+
+ let diff = corners.map { c in Int(sqrt(Double(res.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
     
     return diff
 }
@@ -121,7 +122,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     //   # top-left, top-right, bottom-left, bottom-right
     var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080]]
     //Screen Dimention
-    var ScreenDimention = [(0, 1920), (1, 1080)]
+    var ScreenDimention = [1920, 1080]
     
 //    Last Screen Position Differnce Variable
     var screenCordinateDiff = [Int()]
@@ -161,7 +162,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //        # top-left, top-right, bottom-left, bottom-right
         self.ScreenCorner = [[0, 0], [ScreenWidth, 0], [0, self.ScreenHeight], [self.ScreenWidth, self.ScreenHeight]]
 //        Screen Dimention
-        self.ScreenDimention = [(0, self.ScreenWidth), (1, self.ScreenHeight)]
+        self.ScreenDimention = [ self.ScreenWidth,self.ScreenHeight]
               
         
 //        set buttom icons
@@ -351,6 +352,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         if all(iterable:[self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
             let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
             print(CordinateLabel)
+//            runcmd("say \(CordinateLabel) ")
 //            self.currentScreenCordinate = self.previousScreenCordinate
             //            self.updateScreenImageDispach()
             //               }
