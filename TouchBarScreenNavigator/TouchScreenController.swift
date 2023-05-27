@@ -339,9 +339,11 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         let x = (CGFloat(self.state.PosX))
         let y = (CGFloat(self.state.PosY))
 
+//        derive centered from  cordinate
         let x2 = self.state.PosX / 2
         let y2 = self.state.PosY / 2
       
+//        hot corners tracking
         self.screenCordinateDiff = diffScreenDimention2d(corners: self.ScreenCorner, res:self.ScreenDimention, pos: pos)
         self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? 0]
 //        Todo track screen cordinate possition for HotCorners Misc option
@@ -359,7 +361,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         }
 
         self.currentScreenCordinate = self.previousScreenCordinate
-//        print(String(format: "x %.0f, %.0f", x, y))-
+//        print(String(format: "x %.0f, %.0f", x, y))
 //        print(String(format: " x1,  x2  %.0f, %.0f",   x1,  x2 ))
 //        print(String(format: " y1,  y2 %.0f, %.0f",  y1,  y2))
 //        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
