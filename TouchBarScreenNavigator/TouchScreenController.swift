@@ -110,17 +110,17 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    # set distance (hotcorner sensitivity)
     let radius = 100
 
-//    # top-left, top-right, bottom-left, bottom-right, Center
+//    # bottom-left, bottom-right, top-left, top-right,Center
     let ScreenCordinateLabel = [
-        "top-left",
-        "top-right",
         "bottom-left",
         "bottom-right",
+        "top-left",
+        "top-right",
         "Center"
         ]
     
     //   # list Screen Corners
-    //   # top-left, top-right, bottom-left, bottom-right, center
+    //   # bottom-left, bottom-right, top-left, top-right,Center
     var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080],  [1920/2, 1080/2]]
     //Screen Dimention
     var ScreenDimention = [1920, 1080]
@@ -239,7 +239,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         }
         
 //        # list Screen Corners
-//        # top-left, top-right, bottom-left, bottom-right , center
+//        # bottom-left, bottom-right, top-left, top-right,Center
         self.ScreenCorner = [[0, 0], [ScreenWidth, 0], [0, self.ScreenHeight], [self.ScreenWidth, self.ScreenHeight],  [self.ScreenWidth/2, self.ScreenHeight/2]]
 //        Screen Dimention
         self.ScreenDimention = [ self.ScreenWidth,self.ScreenHeight]
