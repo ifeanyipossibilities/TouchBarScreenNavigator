@@ -8,6 +8,8 @@
 import Cocoa
 import Foundation
 
+
+//Exponentiation operator in Swift
 //derived from https://stackoverflow.com/questions/24065801/exponentiation-operator-in-swift
 precedencegroup ExponeniationPrecedence {
     associativity: right  // This makes Towers of Powers work correctly
@@ -146,7 +148,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     override func windowDidLoad() {
         super.windowDidLoad()
-        
+//        test our Exponentiation operator
         self.test_power()
         
         if let screen = NSScreen.main {
@@ -413,6 +415,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
           return false
       }
     
+    
+//    run power Exponent  test
     func test_power(){
         // Test Exponent = 0
         assert(0**0 == 1)
