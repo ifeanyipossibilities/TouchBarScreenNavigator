@@ -318,7 +318,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
             let mouseimagecursor =  NSImage(named: "cursor")!
 //            print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-            let newim = image.mouseDraw(anotherImage: mouseimagecursor, atPoint: mouseLocation)
+            //        mouse cordinate AXIS Y - Cursor Image height
+            let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: mouseLocation.x, y: mouseLocation.y-50), toSize:NSSize(width: 50, height: 50))
             return newim
         }
     
@@ -492,7 +493,6 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     }
 }
 
-//derived from https://stackoverflow.com/questions/29348487/osx-uigraphicsbeginimagecontext/
 //extended
 extension NSImage {
     
@@ -511,29 +511,14 @@ extension NSImage {
         }
     }
     
-
-    func mouseDraw(anotherImage: NSImage, atPoint point:NSPoint) -> NSImage {
-
-        self.lockFocus()
-        //draw your stuff here
-
-        self.draw(in: CGRect(origin: .zero, size: size))
-//        mouse cordinate - mouse height
-        let frame2 = CGRect(x: point.x, y: point.y-50, width: 50, height: 50)
-        anotherImage.draw(in: frame2)
-
-        self.unlockFocus()
-        return self
-    }
     
-    
-    func mergeWith(anotherImage: NSImage,  atPoint point:NSPoint) -> NSImage {
+    func DrwawImageAtPoint(anotherImage: NSImage,  atPoint point:NSPoint, toSize imSize: NSSize) -> NSImage {
 
             self.lockFocus()
             //draw your stuff here
 
             self.draw(in: CGRect(origin: .zero, size: size))
-            let frame2 = CGRect(x: point.x, y: point.y, width: size.width/3, height: size.height/3)
+           let frame2 = CGRect(x: point.x, y: point.y, width: imSize.width, height: imSize.height)
             anotherImage.draw(in: frame2)
 
             self.unlockFocus()
