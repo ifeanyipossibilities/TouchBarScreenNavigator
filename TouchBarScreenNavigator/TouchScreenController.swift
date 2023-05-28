@@ -50,36 +50,6 @@ public func **(_ base: Int, _ exponent: Int) -> Int {
 }
 
 
-//Return True if all elements of the iterable are true (or if the iterable is empty). Equivalent to:
-func all(_ iterable: [Any]) -> Bool {
-    for element in iterable {
-        if (element as? Bool) == false {
-            return false
-        }
-    }
-    return true
-}
-
-// run command on system
-func runcmd(_ cmd: String ) -> Bool {
-    let task = Process()
-    task.launchPath = "/bin/bash"
-    task.arguments = ["-c", cmd]
-    task.launch()
-    task.waitUntilExit()
-    let status = task.terminationStatus
-    return status == 0
-}
-
-// get the current difference from the mousepointer to each of the corner (radius)
-func diffScreenDimention2d(corners: [[Int]], axis: [Int], pos: [Int]) -> [Int] {
-    
-
- let diff = corners.map { c in Int(sqrt(Double(axis.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
-    
-    return diff
-}
-
 
 
 //TODO
@@ -108,8 +78,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     var ScreenHeight = 1080
     var ScreenWidth = 1920
 //    # set distance (hotcorner sensitivity)
-    let radius = 100
+    let radius = 20
 
+// Screen Corners labels
 //    # bottom-left, bottom-right, top-left, top-right,Center
     let ScreenCordinateLabel = [
         "bottom-left",
@@ -119,13 +90,13 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         "Center"
         ]
     
-    //   # list Screen Corners
+    //   # list Screen Corners points
     //   # bottom-left, bottom-right, top-left, top-right,Center
     var ScreenCorner: [[Int]] = [[0, 0], [1920, 0], [0, 1080], [1920, 1080],  [1920/2, 1080/2]]
     //Screen Dimention
     var ScreenDimention = [1920, 1080]
     
-//    Last Screen Position Differnce Variable
+//    Last Screen Position Differnctio Variable
     var screenCordinateDiff = [Int()]
     var currentScreenCordinate = [Int()]
     var previousScreenCordinate  = [Int()]
@@ -205,8 +176,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
                 self.mouseCursorUpdate()
             }
 
-//
-        self.CurrentScreenView.image =  self.ScreenImage()
+//update screen
+        self.updateScreenImage()
+
         
     
         guard let frame = self.ScrollViewImage.documentView?.frame else { return }
@@ -229,7 +201,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         
     }
     
-    
+//    set screen dimention
 
     func setScreenDimention(){
         if let screen = NSScreen.main {
@@ -350,27 +322,20 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         let y2 = self.state.PosY / 2
       
 //        hot corners tracking
-        self.screenCordinateDiff = diffScreenDimention2d(corners: self.ScreenCorner, axis:self.ScreenDimention, pos: pos)
+        self.screenCordinateDiff = self.diffScreenDimention2d(corners: self.ScreenCorner, axis:self.ScreenDimention, pos: pos)
         self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? -1]
 //        Todo track screen cordinate possition for HotCorners Misc option
 
-        if all([self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
+        if self.all([self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
             if self.previousScreenCordinate[0] != -1 {
                 let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
                 print(CordinateLabel)
-//                runcmd("say \(CordinateLabel) ")
+//                self.runcmd("say \(CordinateLabel) ")
+                //
+                //                    DispatchQueue(label: "updateScreenImageDispach").async {
+                //                        self.runcmd("say \(CordinateLabel) ")
+                //                           }
             }
-            
-//            let CordinateLabel = self.ScreenCordinateLabel[self.previousScreenCordinate[0]]
-//            print(CordinateLabel)
-//            runcmd("say \(CordinateLabel) ")
-//            self.currentScreenCordinate = self.previousScreenCordinate
-            //            self.updateScreenImageDispach()
-            //               }
-//
-//                    DispatchQueue(label: "updateScreenImageDispach").async {
-//                        runcmd("say \(CordinateLabel) ")
-//                           }
             
         }
 //        print("Diff \(self.screenCordinateDiff)")
@@ -385,7 +350,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
         self.ScrollViewImage.magnify(toFit: NSRect(x: x2, y: y2, width: x, height: y))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: x2, y: y2))
-        self.CurrentScreenView.image = image
+  
         
         
     }
@@ -435,7 +400,41 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
       }
     
     
-//    run power Exponent  test
+    //Return True if all elements of the iterable are true (or if the iterable is empty). Equivalent to:
+    func all(_ iterable: [Any]) -> Bool {
+        for element in iterable {
+            if (element as? Bool) == false {
+                return false
+            }
+        }
+        return true
+    }
+
+    // run command on system
+    func runcmd(_ cmd: String ) -> Bool {
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        task.arguments = ["-c", cmd]
+        task.launch()
+        task.waitUntilExit()
+        let status = task.terminationStatus
+        return status == 0
+    }
+    
+    
+    
+    
+    
+    // get the current difference from the mousepointer to each of the corner (radius)
+    func diffScreenDimention2d(corners: [[Int]], axis: [Int], pos: [Int]) -> [Int] {
+     let diff = corners.map { c in Int(sqrt(Double(axis.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
+        
+        return diff
+    }
+    
+    
+    
+//    run power Exponent test
     func test_power(){
         // Test Exponent = 0
         assert(0**0 == 1)
