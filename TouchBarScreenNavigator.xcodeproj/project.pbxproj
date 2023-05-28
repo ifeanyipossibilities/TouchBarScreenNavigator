@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7684F8B62A22EE2F0031B404 /* CBridge in Resources */ = {isa = PBXBuildFile; fileRef = 7684F8B52A22EE2F0031B404 /* CBridge */; };
+		7684F8B92A22EE4D0031B404 /* SupportNSTouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8B72A22EE4D0031B404 /* SupportNSTouchBar.swift */; };
+		7684F8BA2A22EE4D0031B404 /* SupportHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8B82A22EE4D0031B404 /* SupportHelpers.swift */; };
 		76BC7ED82A1CD2B80096747F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7ED72A1CD2B80096747F /* AppDelegate.swift */; };
 		76BC7EDA2A1CD2B80096747F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7ED92A1CD2B80096747F /* ViewController.swift */; };
 		76BC7EDD2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7EDB2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld */; };
@@ -38,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7684F8B52A22EE2F0031B404 /* CBridge */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CBridge; sourceTree = "<group>"; };
+		7684F8B72A22EE4D0031B404 /* SupportNSTouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportNSTouchBar.swift; sourceTree = "<group>"; };
+		7684F8B82A22EE4D0031B404 /* SupportHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportHelpers.swift; sourceTree = "<group>"; };
 		76BC7ED42A1CD2B80096747F /* TouchBarScreenNavigator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchBarScreenNavigator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76BC7ED72A1CD2B80096747F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76BC7ED92A1CD2B80096747F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				76BC7ED72A1CD2B80096747F /* AppDelegate.swift */,
+				7684F8B82A22EE4D0031B404 /* SupportHelpers.swift */,
+				7684F8B72A22EE4D0031B404 /* SupportNSTouchBar.swift */,
+				7684F8B52A22EE2F0031B404 /* CBridge */,
 				76BC7ED92A1CD2B80096747F /* ViewController.swift */,
 				76E879902A222EB300074E41 /* ScrollViewWithEvent.swift */,
 				76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */,
@@ -242,6 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7684F8B62A22EE2F0031B404 /* CBridge in Resources */,
 				76BC7EDF2A1CD2B90096747F /* Assets.xcassets in Resources */,
 				76BC7EE22A1CD2B90096747F /* Main.storyboard in Resources */,
 			);
@@ -272,6 +282,8 @@
 				76E879912A222EB300074E41 /* ScrollViewWithEvent.swift in Sources */,
 				76D387F72A1CD63C00A96E40 /* TouchScreenController.swift in Sources */,
 				76BC7ED82A1CD2B80096747F /* AppDelegate.swift in Sources */,
+				7684F8B92A22EE4D0031B404 /* SupportNSTouchBar.swift in Sources */,
+				7684F8BA2A22EE4D0031B404 /* SupportHelpers.swift in Sources */,
 				76BC7EDD2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,6 +468,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.iosmatrix.TouchBarScreenNavigator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "TouchBarScreenNavigator/CBridge/TouchBarPrivateApi-Bridging.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -483,6 +496,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.iosmatrix.TouchBarScreenNavigator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "TouchBarScreenNavigator/CBridge/TouchBarPrivateApi-Bridging.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
