@@ -8,69 +8,8 @@
 import Cocoa
 import Foundation
 
-
-//Custom Exponentiation operator in Swift
-//derived from https://stackoverflow.com/questions/24065801/exponentiation-operator-in-swift
-precedencegroup ExponeniationPrecedence {
-    associativity: right  // This makes Towers of Powers work correctly
-    higherThan: MultiplicationPrecedence
-}
-
-
-infix operator ** : ExponeniationPrecedence
-public func **(_ x: Decimal, _ y: Int) -> Decimal {
-    //print("_ \(x): Decimal, _ \(y): Int")
-       var res = Decimal()
-        var num = x
-        NSDecimalPower(&res, &num, y, .plain)
-        return res
-    
-}
-public func **(_ base: Double, _ exponent: Double) -> Double {
-    //print("_ \(base): Double, _ \(exponent): Double")
-    return pow(base, exponent)
-}
-public func **(_ base: Float, _ exponent: Float) -> Float {
-    //print("_ \(base): Float, _ \(exponent): Float")
-    return powf(base, exponent)
-}
-public func **(_ base: Int, _ exponent: Int) -> Int {
-    var result = 0
-    //print("_ \(base): Int, _ \(exponent): Int")
-    let test = pow(Decimal(base), exponent)
-    let k = NSDecimalNumber(decimal: test)
-    guard let nsDecimal = NSDecimalNumber(decimal: test) as? NSDecimalNumber,
-                nsDecimal != NSDecimalNumber.notANumber else {
-                
-                return result
-            }
-    
-    result = Int(truncating: k)
-    return result
-}
-
-
-
-
 //TODO
 //1 Remove initial Window
-//
-//keyboard and mouse monitor
-struct KeyboardEvent {
-    var KeyCode = 0
-    var Status = 0
-}
-struct CursorPosition {
-    var PosX = 0.0
-    var PosY = 0.0
-    var MouseLeftStatus = 0
-    var Keys = [KeyboardEvent]()
-}
-
-
-
-
-
 class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
     
@@ -109,12 +48,20 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    var mouseLocation: CGPoint = .zero
     var ZoomScreenRatio = Double(0.1)
     
+    
+    @IBOutlet weak var TouchBarScreenNavigatorTouchBar: NSTouchBar!
+    
+    
     @IBOutlet weak var UpButtonIcon: NSButtonCell!
     @IBOutlet weak var ScrollViewImage: NSScrollView!
     @IBOutlet weak var DownButtonicon: NSButtonCell!
     @IBOutlet weak var LeftbuttonIcon: NSButtonCell!
     @IBOutlet weak var RightButtonIcon: NSButton!
     @IBOutlet weak var CurrentScreenView: NSImageCell!
+    
+    private var frontmostApplicationIdentifier: String? {
+        return NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+    }
     
 
     var state: CursorPosition = CursorPosition(PosX: 0.0, PosY: 0.0, MouseLeftStatus: 0, Keys:[])
@@ -124,7 +71,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //        test our Exponentiation operator
         self.test_power()
         self.setScreenDimention()
-              
+    
         
 //        set buttom icons
 
@@ -273,6 +220,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //    Go Down when button tapped
     
     @IBAction func GoDown(_ sender: Any) {
+        
+        minimizeSystemModal(self.TouchBarScreenNavigatorTouchBar)
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
             self.ScreenLocationY -= 10
@@ -506,40 +455,4 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         assert(2**2**3 == 256)
         assert(2**3**2 == 512)
     }
-}
-
-//extended
-extension NSImage {
-    
-//    to save png
-    var pngData: Data? {
-        guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
-        return bitmapImage.representation(using: .png, properties: [:])
-    }
-    func pngWrite(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
-        do {
-            try pngData?.write(to: url, options: options)
-            return true
-        } catch {
-            print(error)
-            return false
-        }
-    }
-    
-    
-    func DrwawImageAtPoint(anotherImage: NSImage,  atPoint point:NSPoint, toSize imSize: NSSize) -> NSImage {
-
-            self.lockFocus()
-            //draw your stuff here
-
-            self.draw(in: CGRect(origin: .zero, size: size))
-           let frame2 = CGRect(x: point.x, y: point.y, width: imSize.width, height: imSize.height)
-            anotherImage.draw(in: frame2)
-
-            self.unlockFocus()
-            return self
-        }
-
-    
-
 }

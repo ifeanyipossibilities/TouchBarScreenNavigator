@@ -10,6 +10,8 @@
 		7684F8B62A22EE2F0031B404 /* CBridge in Resources */ = {isa = PBXBuildFile; fileRef = 7684F8B52A22EE2F0031B404 /* CBridge */; };
 		7684F8B92A22EE4D0031B404 /* SupportNSTouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8B72A22EE4D0031B404 /* SupportNSTouchBar.swift */; };
 		7684F8BA2A22EE4D0031B404 /* SupportHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8B82A22EE4D0031B404 /* SupportHelpers.swift */; };
+		7684F8BC2A22F58B0031B404 /* GeneralExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8BB2A22F58B0031B404 /* GeneralExtensions.swift */; };
+		7684F8BE2A22F7420031B404 /* MouseKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7684F8BD2A22F7420031B404 /* MouseKey.swift */; };
 		76BC7ED82A1CD2B80096747F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7ED72A1CD2B80096747F /* AppDelegate.swift */; };
 		76BC7EDA2A1CD2B80096747F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7ED92A1CD2B80096747F /* ViewController.swift */; };
 		76BC7EDD2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76BC7EDB2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld */; };
@@ -44,6 +46,8 @@
 		7684F8B52A22EE2F0031B404 /* CBridge */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CBridge; sourceTree = "<group>"; };
 		7684F8B72A22EE4D0031B404 /* SupportNSTouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportNSTouchBar.swift; sourceTree = "<group>"; };
 		7684F8B82A22EE4D0031B404 /* SupportHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportHelpers.swift; sourceTree = "<group>"; };
+		7684F8BB2A22F58B0031B404 /* GeneralExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralExtensions.swift; sourceTree = "<group>"; };
+		7684F8BD2A22F7420031B404 /* MouseKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseKey.swift; sourceTree = "<group>"; };
 		76BC7ED42A1CD2B80096747F /* TouchBarScreenNavigator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchBarScreenNavigator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76BC7ED72A1CD2B80096747F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76BC7ED92A1CD2B80096747F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,8 +120,10 @@
 				76BC7ED92A1CD2B80096747F /* ViewController.swift */,
 				76E879902A222EB300074E41 /* ScrollViewWithEvent.swift */,
 				76D387F62A1CD63C00A96E40 /* TouchScreenController.swift */,
+				7684F8BD2A22F7420031B404 /* MouseKey.swift */,
 				76BC7EDE2A1CD2B90096747F /* Assets.xcassets */,
 				76BC7EE02A1CD2B90096747F /* Main.storyboard */,
+				7684F8BB2A22F58B0031B404 /* GeneralExtensions.swift */,
 				76BC7EE32A1CD2B90096747F /* TouchBarScreenNavigator.entitlements */,
 				76BC7EDB2A1CD2B80096747F /* TouchBarScreenNavigator.xcdatamodeld */,
 			);
@@ -278,7 +284,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7684F8BC2A22F58B0031B404 /* GeneralExtensions.swift in Sources */,
 				76BC7EDA2A1CD2B80096747F /* ViewController.swift in Sources */,
+				7684F8BE2A22F7420031B404 /* MouseKey.swift in Sources */,
 				76E879912A222EB300074E41 /* ScrollViewWithEvent.swift in Sources */,
 				76D387F72A1CD63C00A96E40 /* TouchScreenController.swift in Sources */,
 				76BC7ED82A1CD2B80096747F /* AppDelegate.swift in Sources */,

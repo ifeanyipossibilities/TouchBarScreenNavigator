@@ -802,6 +802,7 @@
                         <outlet property="LeftbuttonIcon" destination="kqb-Ss-M1G" id="5Pv-5c-x28"/>
                         <outlet property="RightButtonIcon" destination="IzS-Wr-eVd" id="aoy-eJ-VUl"/>
                         <outlet property="ScrollViewImage" destination="3kt-BM-Cm6" id="CKb-uA-nKC"/>
+                        <outlet property="TouchBarScreenNavigatorTouchBar" destination="TkW-4S-Arb" id="u2A-uP-BjZ"/>
                         <outlet property="UpButtonIcon" destination="W92-UT-sBL" id="bDH-Ig-LDz"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
