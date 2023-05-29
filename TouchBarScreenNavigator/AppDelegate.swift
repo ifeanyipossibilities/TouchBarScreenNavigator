@@ -50,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //
 //
 //
-//        NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
 //        NSApplication.shared.windows.first?.close() //DOESN WORK
 //        NSApplication.shared.windows.last?.close() // WORK
 //        NSApplication.shared.window.orderOut(nil)

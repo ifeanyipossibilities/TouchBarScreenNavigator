@@ -10,11 +10,14 @@ import Foundation
 
 //TODO
 //1 Remove initial Window
+//2 Allow user to customize hot corner
+// 3 stay on the touchbar screen like MTR
 class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
     
 //    set display height
     var ScreenHeight = 1080
+    //    set display width
     var ScreenWidth = 1920
 //    # set distance (hotcorner sensitivity)
     let radius = 20
@@ -62,6 +65,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     private var frontmostApplicationIdentifier: String? {
         return NSWorkspace.shared.frontmostApplication?.bundleIdentifier
     }
+    
     
 
     var state: CursorPosition = CursorPosition(PosX: 0.0, PosY: 0.0, MouseLeftStatus: 0, Keys:[])
@@ -166,6 +170,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     //  update the current screen image
     @objc func updateScreenImage(){
+//        print("frontmostApplicationIdentifier \(String(describing: frontmostApplicationIdentifier))")
             self.CurrentScreenView.image = self.ScreenImage()
 
     }
