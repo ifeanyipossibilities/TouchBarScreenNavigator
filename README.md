@@ -18,7 +18,7 @@ After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visibl
 1. Remove blank window
 2. Allow user to customize cmd to run on HotCorner
 3. Use [MTMR](https://github.com/Toxblh/MTMR/releases) concept to stay on TouchBar as we Navigate the Screen without depriving other TouchBar App the TouchBar Usability.
-4. Experiment with ```#include <security/pam_appl.h>``` to Capture the screen on Loginwindow  using ```#import <AppKit/AppKit.h>```
+4. Experiment with pam module ```#include <security/pam_appl.h>``` to Capture the screen on Loginwindow  using ```#import <AppKit/AppKit.h>``` or work towards TouchBarScreenNavigator kernel extension which ever make it possible am going to try. 
 
 
 ## Way Foward
