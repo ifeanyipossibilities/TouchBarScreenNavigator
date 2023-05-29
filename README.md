@@ -21,6 +21,10 @@ After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visibl
 4. Experiment with ```#include <security/pam_appl.h>``` to Capture the screen on Loginwindow  using ```#import <AppKit/AppKit.h>```
 
 
+## Way Foward
+I have realized to achieve my objective i have to programatically create all the Touchbar and other componets without the storyboard.
+
+
 
 ## Contribution
 I am venturing into Mac OS App development for the first time out of necessity. My Mac Book 19 is currently displaying a blank screen, and I need assistance with creating a TouchBar App. Specifically, I want to eliminate the blank window and make it a TouchBar only app. Please help.

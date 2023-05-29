@@ -11,7 +11,7 @@ import Foundation
 //TODO
 //1 Remove initial Window
 //2 Allow user to customize hot corner
-// 3 stay on the touchbar screen like MTMR without depriving other  TouchBar App the TouchBar Usability
+// 3 stay on the touchbar screen like MTMR without depriving other TouchBar App the TouchBar Usability
 class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
     
@@ -279,7 +279,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
                 print(CordinateLabel)
 //                self.runcmd("say \(CordinateLabel) ")
                 //
-                //                    DispatchQueue(label: "updateScreenImageDispach").async {
+                //                    DispatchQueue(label: "RunCornerCmd").async {
                 //                        self.runcmd("say \(CordinateLabel) ")
                 //                           }
             }
