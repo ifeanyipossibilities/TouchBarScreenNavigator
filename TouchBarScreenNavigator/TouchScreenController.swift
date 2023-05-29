@@ -183,7 +183,10 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     @IBAction func GoLeft(_ sender: Any) {
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
+        
+        if   self.ScreenLocationX  != 0 {
             self.ScreenLocationX -= 10
+        }
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
         
@@ -194,7 +197,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     @IBAction func GoRight(_ sender: Any) {
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
+        if self.ScreenLocationX<self.ScreenWidth{
             self.ScreenLocationX += 10
+        }
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
        
@@ -207,8 +212,10 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     @IBAction func GoUp(_ sender: Any) {
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
+        if self.ScreenLocationY<self.ScreenHeight{
             self.ScreenLocationY += 10
-            self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
+        }
+    self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
        
         
@@ -222,7 +229,9 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         minimizeSystemModal(self.TouchBarScreenNavigatorTouchBar)
         let image =  self.ScreenImage()
         self.CurrentScreenView.image = image
+        if   self.ScreenLocationY  != 0{
             self.ScreenLocationY -= 10
+        }
             self.ScrollViewImage.magnify(toFit: NSRect(x: CGFloat(self.ScreenLocationX), y: CGFloat(self.ScreenLocationY), width: image.size.width, height: image.size.height))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: self.ScreenLocationX, y: self.ScreenLocationY))
         
