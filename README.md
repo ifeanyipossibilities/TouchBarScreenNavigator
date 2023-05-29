@@ -19,7 +19,7 @@ After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visibl
 2. Allow user to customize cmd to run on HotCorner
 3. Use [MTMR](https://github.com/Toxblh/MTMR/releases) concept to stay on TouchBar as we Navigate the Screen without depriving other TouchBar App the TouchBar Usability.
 4. Experiment with pam module ```#include <security/pam_appl.h>``` to Capture the screen on Loginwindow  using ```#import <AppKit/AppKit.h>``` or work towards TouchBarScreenNavigator kernel extension which ever make it possible am going to try. 
-5. Currently once you locate a point on the screen to to click due to the main window overlay you have to click tripple one to focus on the the other to click item.
+5. At present, finding a point on the screen to click can be cumbersome due to the overlay of the main window. To select an item, one must first click thrice to shift focus to that item.
 
 
 ## Way Foward
