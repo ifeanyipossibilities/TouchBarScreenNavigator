@@ -11,7 +11,7 @@ import Foundation
 //TODO
 //1 Remove initial Window
 //2 Allow user to customize hot corner
-// 3 stay on the touchbar screen like MTR
+// 3 stay on the touchbar screen like MTMR without depriving other  TouchBar App the TouchBar Usability
 class TouchScreenController: NSWindowController,  NSWindowDelegate {
 
     
@@ -38,7 +38,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     //Screen Dimention
     var ScreenDimention = [1920, 1080]
     
-//    Last Screen Position Differnctio Variable
+//    Last Screen Coordinate variable
     var screenCordinateDiff = [Int()]
     var currentScreenCordinate = [Int()]
     var previousScreenCordinate  = [Int()]
@@ -137,13 +137,6 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
         
         
         
-                   
-              
-      //        costs memory
-      ////        dispach thread to update screen image but this seems not to be updating
-      //        DispatchQueue(label: "updateScreenImageDispach").async {
-      //            self.updateScreenImageDispach()
-      //               }
               
       //      update screen image using schedule
               Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.updateScreenImage), userInfo: nil, repeats: true)

@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
     func HideShowApp(sender: NSStatusBarButton){
-        print("DO NOTHING:")
+        print("DO NOTHING FOR NOW:")
         
     }
     
@@ -31,33 +31,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
 
 
-   
-        
-//
-////        am trying to hide the app since i only need the Touch Bar screen
-//        let storyboard = NSStoryboard(name: "TouchScreenNavigatorID", bundle: nil)
-//        guard let mainWC = storyboard.instantiateController(withIdentifier: "TouchScreenController") as? TouchScreenController else {
-//           fatalError("Error getting main window controller")
-//        }
-//
-//
-//        mainWC.window?.makeKeyAndOrderFront(nil) //DOESN WORK
-//
-//        mainWC.window!.orderOut(nil) //DOESN WORK
-//        mainWC.window?.close() //DOESN WORK
-//        mainWC.window?.orderBack(nil)
-//
-//
-//
-//
         NSApplication.shared.isAutomaticCustomizeTouchBarMenuItemEnabled = true
-//        NSApplication.shared.windows.first?.close() //DOESN WORK
-//        NSApplication.shared.windows.last?.close() // WORK
-//        NSApplication.shared.window.orderOut(nil)
         
         
-        
-    
     
     
     

@@ -17,7 +17,7 @@ After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visibl
 ## Todo
 1. Remove blank window
 2. Allow user to customize cmd to run on HotCorner
-3. Use [MTMR](https://github.com/Toxblh/MTMR/releases) concept to stay on TouchBar as we Navigate the Screen without depriving other App the TouchBar Usability.
+3. Use [MTMR](https://github.com/Toxblh/MTMR/releases) concept to stay on TouchBar as we Navigate the Screen without depriving other TouchBar App the TouchBar Usability.
 
 
 
