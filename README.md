@@ -2,8 +2,6 @@
 
 After my Mac Book Pro's 19 TouchBar 16-inch screen went blank without any visible damage, I decided to experiment by using the  TouchBar as a substitute screen. With some efforts, I managed to add desired features for navigating to apps. Still in progresss However,it works just add it to login item.
 
-****
-
 
 ## How to use
 1. Install TouchSwitcher

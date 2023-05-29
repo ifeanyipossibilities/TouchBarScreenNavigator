@@ -52,7 +52,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     var ZoomScreenRatio = Double(0.1)
     
     
-    @IBOutlet weak var TouchBarScreenNavigatorTouchBar: NSTouchBar!
+    @IBOutlet weak var TouchBarScreenNavigatorTouchBar: NSTouchBar! //for later use
     
     
     @IBOutlet weak var UpButtonIcon: NSButtonCell!
@@ -146,7 +146,6 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     }
     
 //    set screen dimention
-
     func setScreenDimention(){
         if let screen = NSScreen.main {
             let rect = screen.frame
@@ -241,14 +240,11 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     //    Function to capture the current screen
         func ScreenImage() -> NSImage{
-            //        print(String(format: "%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
             let displayID = CGMainDisplayID()
             let imageRef = CGDisplayCreateImage(displayID)
             let image =  NSImage(cgImage: imageRef!, size: (NSScreen.main?.frame.size)!)
-//
 //            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
             let mouseimagecursor =  NSImage(named: "cursor")!
-//            print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
             //        mouse cordinate AXIS Y - Cursor Image height
             let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: mouseLocation.x, y: mouseLocation.y-50), toSize:NSSize(width: 50, height: 50))
             return newim
@@ -259,13 +255,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     func mouseCursorUpdate(){
         
         self.setScreenDimention()
-        
-//                guard let frame = self.ScrollViewImage.documentView?.frame else { return }
-//        self.ScrollViewImage.contentView.documentCursor = NSCursor.iBeam;
-//            print(String(format: "Frame Location l%.0f, %.0f", frame.size.width, frame.size.height))
-        let image =  self.ScreenImage()
-        self.CurrentScreenView.image = image
-        
+        self.updateScreenImage()
         
         //    Last mouse known Position
         let pos =  [Int(self.state.PosX),Int( self.state.PosY)]
@@ -280,7 +270,6 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
 //        hot corners tracking
         self.screenCordinateDiff = self.diffScreenDimention2d(corners: self.ScreenCorner, axis:self.ScreenDimention, pos: pos)
         self.previousScreenCordinate  = [self.screenCordinateDiff.firstIndex(where: { $0 < self.radius }) ?? -1]
-//        Todo track screen cordinate possition for HotCorners Misc option
 
         if self.all([self.previousScreenCordinate != self.currentScreenCordinate,self.previousScreenCordinate]) {
             if self.previousScreenCordinate[0] != -1 {
@@ -294,16 +283,8 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
             }
             
         }
-//        print("Diff \(self.screenCordinateDiff)")
-//        print("Prev \(self.previousScreenCordinate)")
-//        print(" Current \(self.currentScreenCordinate)")
 
         self.currentScreenCordinate = self.previousScreenCordinate
-//        print(String(format: "x %.0f, %.0f", x, y))
-//        print(String(format: " x1,  x2  %.0f, %.0f",   x1,  x2 ))
-//        print(String(format: " y1,  y2 %.0f, %.0f",  y1,  y2))
-//        print(String(format: "Mouse Location l%.0f, %.0f", self.mouseLocation.x, self.mouseLocation.y))
-
         self.ScrollViewImage.magnify(toFit: NSRect(x: x2, y: y2, width: x, height: y))
         self.ScrollViewImage.setMagnification(self.ZoomScreenRatio, centeredAt: NSPoint(x: x2, y: y2))
   
@@ -381,7 +362,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
     
     
     
-    // get the current difference from the mousepointer to each of the corner (radius)
+    // get the current difference from the mousepointer to the screen dimention corner (radius) given position x,y
     func diffScreenDimention2d(corners: [[Int]], axis: [Int], pos: [Int]) -> [Int] {
      let diff = corners.map { c in Int(sqrt(Double(axis.enumerated().map { (i, n) in (c[i] - pos[i]) ** 2 }.reduce(0, +)))) }
         
