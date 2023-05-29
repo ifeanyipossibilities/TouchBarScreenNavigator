@@ -2,7 +2,7 @@
 //  ImageExtention.swift
 //  TouchBarScreenNavigator
 //
-//  Created by Ifeanyi image on 5/29/23.
+//  Created by Ifeanyi on 5/29/23.
 //
 
 import Foundation

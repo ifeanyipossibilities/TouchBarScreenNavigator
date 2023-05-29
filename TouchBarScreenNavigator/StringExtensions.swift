@@ -6,7 +6,6 @@
 //  Copyright © 2018 Anton Palgunov. All rights reserved.
 //
 
-import AppKit
 import Cocoa
 import Foundation
 
