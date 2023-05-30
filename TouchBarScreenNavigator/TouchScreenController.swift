@@ -244,9 +244,11 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
             let imageRef = CGDisplayCreateImage(displayID)
             let image =  NSImage(cgImage: imageRef!, size: (NSScreen.main?.frame.size)!)
 //            let mouseimagecursor = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: "")!
-            let mouseimagecursor =  NSImage(named: "cursor")!
-            //        mouse cordinate AXIS Y - Cursor Image height
-            let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: mouseLocation.x, y: mouseLocation.y-50), toSize:NSSize(width: 50, height: 50))
+            var mouseimagecursor =  NSImage(named: "cursor")!
+             mouseimagecursor =  mouseimagecursor.resize(toSize: NSSize(width: 50, height: 50))
+            let cursorheight =  mouseimagecursor.size.height
+            //    draw  mouse cursor at cordinate AXIS Y - Cursor Image height
+            let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: mouseLocation.x, y: mouseLocation.y-cursorheight), toSize:NSSize(width: 50, height: 50))
             return newim
         }
     

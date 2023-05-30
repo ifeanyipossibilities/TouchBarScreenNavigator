@@ -41,12 +41,12 @@ extension NSImage {
     
     
     
-    func resize(maxSize: NSSize) -> NSImage {
+    func resize(toSize: NSSize) -> NSImage {
         var ratio: Float = 0.0
         let imageWidth = Float(size.width)
         let imageHeight = Float(size.height)
-        let maxWidth = Float(maxSize.width)
-        let maxHeight = Float(maxSize.height)
+        let maxWidth = Float(toSize.width)
+        let maxHeight = Float(toSize.height)
 
         // Get ratio (landscape or portrait)
         if imageWidth > imageHeight {
