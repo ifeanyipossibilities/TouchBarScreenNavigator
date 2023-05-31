@@ -239,7 +239,7 @@ class TouchScreenController: NSWindowController,  NSWindowDelegate {
              mouseimagecursor =  mouseimagecursor.resize(toSize: NSSize(width: 50, height: 50))
             let cursorheight =  mouseimagecursor.size.height
             //    draw  mouse cursor at cordinate AXIS Y - Cursor Image height
-            let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: mouseLocation.x, y: mouseLocation.y-cursorheight), toSize:NSSize(width: 50, height: 50))
+            let newim = image.DrwawImageAtPoint(anotherImage: mouseimagecursor, atPoint: NSPoint(x: self.mouseLocation.x, y: self.mouseLocation.y-cursorheight), toSize:NSSize(width: 50, height: 50))
             return newim
         }
     
